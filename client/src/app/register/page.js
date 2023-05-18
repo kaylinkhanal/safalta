@@ -7,7 +7,7 @@ const Register =()=> {
     <input placeholder="eter your name"/>
     <input placeholder="eter your name"/>
     <input placeholder="eter your name"/>
-    <button> Register</button>
+    <button style={{backgroundColor:'red'}}> Register</button>
     Already have an account yet? <Link href="/login">Sign in</Link> instead
    </div>
   )
