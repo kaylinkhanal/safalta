@@ -18,8 +18,13 @@ const Home = () => {
           <div className="Header-buttons">
             <button onClick={() => handleRouting('/login')}>Login</button>
             <button onClick={() => handleRouting('/register')}>Register</button>
-            <Avatar />
           </div>
+          <div className="Header-Avatar">
+          <Avatar />
+          </div>
+
+
+
         </div>
   
         <div className="Body">

@@ -3,22 +3,66 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
 }
 
-
-.Header .Header-buttons {
+.Header-buttons {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .Header button {
   margin-left: 10px;
 }
 
+.Body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #8ed6e1;
+  
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+  max-width: 100%;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.Avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
 .Avatar {
   margin-left: auto;
- 
   align-items: center;
   margin-left: auto;
 }
@@ -31,4 +75,6 @@
 
 .Logo {
   margin-right: auto;
+  display: flex;
+  align-items: center;
 }
