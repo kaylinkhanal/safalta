@@ -10,11 +10,9 @@ app.use(express.json());
 app.use("/",userRoute)
 
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`)
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
 })
-
-
 
 
 

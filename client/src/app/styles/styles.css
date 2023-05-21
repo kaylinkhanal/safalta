@@ -1,34 +1,29 @@
-.Header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #f2f2f2;
+button.btn.login_btn{
+  background-color: #58585B;
+  color: #fff;
+  margin-right: 15px;
 }
 
-
-.Header .Header-buttons {
-  display: flex;
-  align-items: center;
+button.btn.signin_btn{
+  /* background-color: #DB9B1F; */
+  background-color: #FA9D1B;
+  color: #fff;
 }
-
-.Header button {
-  margin-left: 10px;
+button.btn.order_track_btn {
+  background-color: #58585B;
+  color: #ffff;
+  padding: 17px 18px;
 }
-
-.Avatar {
-  margin-left: auto;
- 
-  align-items: center;
-  margin-left: auto;
+.order_tracking_form {
+  width: 400px;
+  border: 2px solid #FA9D1B;
+  border-radius: 18px;
+  height: 65px;
+  padding: 10px 20px;
 }
-
-.Avatar .icon {
-  width: 24px;
-  height: 24px;
-  color: #333;
+button.btn.login_btn:hover, button.btn.signin_btn:hover {
+  color: #d9d6d6;
 }
-
-.Logo {
-  margin-right: auto;
+button.btn.order_track_btn:hover {
+  background-color: #FA9D1B;
 }
