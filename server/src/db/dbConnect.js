@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dbConnect = async() => {
     try{
-        const res = await mongoose.connect('mongodb://127.0.0.1:27017/firstTryMongo');
+        const res = await mongoose.connect('mongodb://127.0.0.1:27017/safaltaDb');
         if(res){
             console.log("connected to mongodb")
         }
