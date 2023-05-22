@@ -3,7 +3,6 @@ const app = express()
 const port = 8000
 require('dotenv').config()
 const userRoute=require('./routes/user')
-const name = 'ram'
 const dbConnect = require('./db/dbConnect')
 
 dbConnect()
