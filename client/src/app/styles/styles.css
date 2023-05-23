@@ -1,0 +1,29 @@
+button.btn.login_btn{
+  background-color: #58585B;
+  color: #fff;
+  margin-right: 15px;
+}
+
+button.btn.signin_btn{
+  /* background-color: #DB9B1F; */
+  background-color: #FA9D1B;
+  color: #fff;
+}
+button.btn.order_track_btn {
+  background-color: #58585B;
+  color: #ffff;
+  padding: 17px 18px;
+}
+.order_tracking_form {
+  width: 400px;
+  border: 2px solid #FA9D1B;
+  border-radius: 18px;
+  height: 65px;
+  padding: 10px 20px;
+}
+button.btn.login_btn:hover, button.btn.signin_btn:hover {
+  color: #d9d6d6;
+}
+button.btn.order_track_btn:hover {
+  background-color: #FA9D1B;
+}
