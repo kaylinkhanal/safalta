@@ -10,7 +10,8 @@ router.post('/products', async(req, res) => {
    User.create(req.body)
  
  })
-router.post('/users', async(req, res) => {
+ 
+router.post('/register', async(req, res) => {
    User.create(req.body)
  
  })

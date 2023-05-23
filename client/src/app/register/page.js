@@ -7,6 +7,25 @@ import Link from 'next/link';
 import '../styles/reg.css';
 
 
+function checkValidity(values){
+  if( Number(values)?.toString() == NaN?.toString() && values?.includes('@') && values?.includes('.') ) {
+       return ['email', true]
+  }else if(Number(values).toString() != NaN.toString()){
+    if(values?.length ==10){
+     return ['phoneNumber' , true]
+    }else{
+     return ['phoneNumber' , false]
+    }
+  }
+  else{
+     if(values?.length <3 || !values){
+       return ['username', false]
+     }else{
+         return ['username', true]
+     }
+  }
+}
+
 // Creating schema
 const schema = Yup.object().shape({
   firstName: Yup.string()
@@ -17,13 +36,16 @@ const schema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  email: Yup.string()
-    .required("Email is a required field")
-    .email("Invalid email format"),
+    userIdentityField: Yup.string()
+    .test(`validate userIdentityField`, (item)=>'invalid '+checkValidity(item?.value)[0], (value)=>  value?.length>0 && checkValidity(value)[1]),
   password: Yup.string()
     .required("Password is a required field")
     .min(8, "Password must be at least 8 characters"),
 });
+
+const handleRegister = async() => {
+  
+}
 
 function Register() {
   return (
@@ -33,11 +55,11 @@ function Register() {
         validationSchema={schema}
         initialValues={{
           firstName: '',
-          lastName: '', email: "", password: ""
+          lastName: '', userIdentityField: "", password: ""
         }}
         onSubmit={(values) => {
           // Alert the input values of the form that we filled
-          alert(JSON.stringify(values));
+          handleRegister(values)
         }}
       >
         {({
@@ -66,18 +88,17 @@ function Register() {
                   {errors.lastName && touched.lastName && errors.lastName}
                 </p>
                 <input
-                  type="email"
-                  name="email"
+                  name="userIdentityField"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.email}
-                  placeholder="Enter email id / username"
+                  value={values.userIdentityField}
+                  placeholder="Enter email id / username / phone no"
                   className="form-control inp_text"
-                  id="email"
+                  id="userIdentityField"
                 />
 
                 <p className="error">
-                  {errors.email && touched.email && errors.email}
+                  {errors.userIdentityField && touched.userIdentityField && errors.userIdentityField}
                 </p>
 
                 <input
