@@ -4,12 +4,12 @@
 ## Project setup
 
 Client nextjs
-    ```Javascript
+    ```
         npm install
         npm run dev
     ```
 Client server/nodejs
-    ```Javascript
+    ```
         npm install
         npm run dev
     ```
