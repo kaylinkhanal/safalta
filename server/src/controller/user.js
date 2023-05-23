@@ -1,5 +1,14 @@
+const User = require('../model/user')
+
 const addNewUser = async(req, res) => {
-    const data = await User.create(req.body)
+    User.create(req.body)
    }
 
-module.exports = addNewUser
+const deleteUser = async(req, res) => {
+    console.log("test")
+}
+
+module.exports = {
+    addNewUser,
+    deleteUser
+}
