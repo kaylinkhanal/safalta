@@ -13,5 +13,12 @@ router.post('/users', async(req, res) => {
    User.create(req.body)
  
  })
+ router.post('/register', async(req, res) => {
+
+  // console.log(req.body)
+  res.send('success')
+  // User.create(req.body)
+
+})
 
   module.exports = router;
