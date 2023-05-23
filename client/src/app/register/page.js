@@ -33,7 +33,9 @@ function Register() {
         validationSchema={schema}
         initialValues={{
           firstName: '',
-          lastName: '', email: "", password: ""
+          lastName: '',
+           email: "",
+            password: ""
         }}
         onSubmit={(values) => {
           // Alert the input values of the form that we filled
@@ -60,7 +62,8 @@ function Register() {
                   {errors.firstName && touched.firstName && errors.firstName}
                 </p>
                
-                <input name="lastName"   placeholder="Enter Last  Name"
+                <input name="lastName"   
+                placeholder="Enter Last  Name"
                   className="form-control"/>
                 <p className="error">
                   {errors.lastName && touched.lastName && errors.lastName}
