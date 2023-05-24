@@ -1,7 +1,18 @@
 const User = require('../model/user')
 
 const addNewUser = async(req, res) => {
-    User.create(req.body)
+        try{
+            const data= await User.create(req.body)
+            if(data) {
+                res.json({
+                    msg: "registered successfully"
+                })
+            }
+        }catch(err){
+            console.log(err)
+        }
+   
+
    }
 
 const deleteUser = async(req, res) => {

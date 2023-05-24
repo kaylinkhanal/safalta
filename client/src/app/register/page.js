@@ -47,7 +47,16 @@ const schema = Yup.object().shape({
     .min(8, "Password must be at least 8 characters"),
 });
 
-const handleRegister = async() => {
+const handleRegister = async(values) => {
+  const userField = checkValidity(values.userIdentityField)
+  values[userField[0]] = values.userIdentityField
+  
+  const requestOptions ={
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(values)
+  }
+ const res = await fetch('http://localhost:8000/register', requestOptions)
 }
 
 function Register() {
