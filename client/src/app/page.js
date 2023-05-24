@@ -44,8 +44,8 @@ const Home = () => {
               </li>
             </ul>
             <form className="d-flex">
-              <button type="button" class="btn login_btn" onClick={() => handleRouting('/login')}>LogIn</button>
-              <button type="button" class="btn signin_btn" onClick={() => handleRouting('/register')}>SignUp</button>
+              <button type="button" className="btn login_btn" onClick={() => handleRouting('/login')}>LogIn</button>
+              <button type="button" className="btn signin_btn" onClick={() => handleRouting('/register')}>SignUp</button>
             </form>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Home = () => {
                   />
                 </label>
               </form>
-              <button type="button" class="btn order_track_btn mt-4" >PROCEED NOW</button>
+              <button type="button" className="btn order_track_btn mt-4" >PROCEED NOW</button>
             </div>
           </div>
         </div>

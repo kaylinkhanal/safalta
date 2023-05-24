@@ -8,7 +8,14 @@ const deleteUser = async(req, res) => {
     console.log("test")
 }
 
+const getAllPassword = async(req, res) => {
+    const data = await User.find()
+    res.json({data: data})
+
+}
+
 module.exports = {
     addNewUser,
-    deleteUser
+    deleteUser,
+    getAllPassword
 }
