@@ -8,8 +8,12 @@ import '../styles/reg.css';
 
 
 function checkValidity(values){
-  if( Number(values)?.toString() == NaN?.toString() && values?.includes('@') && values?.includes('.') ) {
-       return ['email', true]
+  if( Number(values)?.toString() == NaN?.toString() && values?.includes('@')  ) {
+    if( values?.includes('.')){
+      return ['email', true]
+    }else{
+      return ['email', false]
+    }
   }else if(Number(values).toString() != NaN.toString()){
     if(values?.length ==10){
      return ['phoneNumber' , true]
@@ -44,7 +48,6 @@ const schema = Yup.object().shape({
 });
 
 const handleRegister = async() => {
-  
 }
 
 function Register() {
@@ -76,14 +79,23 @@ function Register() {
               <form noValidate onSubmit={handleSubmit}>
                 <Image src={logoImage} alt="Logo" width={160} height={85} />
                 <span>Register</span>
-                <input name="firstName"  placeholder="Enter First Name"
+                <input 
+                name="firstName"
+                onChange={handleChange}
+                value={values.firstName}
+                id="firstName"
+                placeholder="Enter First Name"
                   className="form-control"/>
                 <p className="error">
                   {errors.firstName && touched.firstName && errors.firstName}
                 </p>
                
-                <input name="lastName"   placeholder="Enter Last  Name"
-                  className="form-control"/>
+                <input name="lastName" 
+                  value={values.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter Last  Name"
+                  className="form-control"
+                  />
                 <p className="error">
                   {errors.lastName && touched.lastName && errors.lastName}
                 </p>
