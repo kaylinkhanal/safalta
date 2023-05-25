@@ -1,9 +1,13 @@
 'use client';
+import {useState} from 'react';
 import Image from 'next/image';
 import logoImage from '../Image/logo.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from 'next/link';
+
+import Snackbar from '@mui/material/Snackbar';
+
 import '../styles/reg.css';
 
 
@@ -47,19 +51,34 @@ const schema = Yup.object().shape({
     .min(8, "Password must be at least 8 characters"),
 });
 
-const handleRegister = async(values) => {
-  const userField = checkValidity(values.userIdentityField)
-  values[userField[0]] = values.userIdentityField
-  
-  const requestOptions ={
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(values)
-  }
- const res = await fetch('http://localhost:8000/register', requestOptions)
-}
+
+
 
 function Register() {
+  const [open, setOpen] = useState(false)
+  const handleRegister = async(values,resetForm) => {
+    try{
+      const userField = checkValidity(values.userIdentityField)
+      values[userField[0]] = values.userIdentityField
+      
+      const requestOptions ={
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      }
+     const res = await fetch('http://localhost:8000/register', requestOptions)
+     const data = await res.json()
+     if(res.status == 200 && data){
+      setOpen(true)
+       alert("user registration success")
+      // resetForm()
+     }
+    }catch(err){
+      setOpen(true)
+        alert("registration failed")
+    }
+  
+  }
   return (
     <>
 
@@ -69,9 +88,9 @@ function Register() {
           firstName: '',
           lastName: '', userIdentityField: "", password: ""
         }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           // Alert the input values of the form that we filled
-          handleRegister(values)
+          handleRegister(values,resetForm)
         }}
       >
         {({
@@ -145,6 +164,13 @@ function Register() {
           </div>
         )}
       </Formik>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        // onClose={handleClose}
+        message="Note archived"
+        // action={action}
+      />
     </>
   );
 }
