@@ -54,13 +54,26 @@ const schema = Yup.object().shape({
 
 
 
-function Register() {
+const Register = () => {
   const [open, setOpen] = useState(false)
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  
   const handleRegister = async(values,resetForm) => {
     try{
       const userField = checkValidity(values.userIdentityField)
       values[userField[0]] = values.userIdentityField
-      
+     
       const requestOptions ={
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -166,10 +179,10 @@ function Register() {
       </Formik>
       <Snackbar
         open={open}
-        autoHideDuration={6000}
-        // onClose={handleClose}
+        autoHideDuration={2000}
+        onClose={handleClose}
         message="Note archived"
-        // action={action}
+        //action={action}
       />
     </>
   );
