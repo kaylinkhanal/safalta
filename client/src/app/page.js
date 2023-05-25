@@ -5,6 +5,8 @@ import ctaImage from './Image/tracking.jpg'
 import { useRouter } from 'next/navigation';
 import Avatar from '../Avatar';
 import './styles/styles.css';
+import 'tailwindcss/tailwind.css'
+
 // 
 
 
