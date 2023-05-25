@@ -24,6 +24,12 @@ function checkValidity(values){
     }else{
      return ['phoneNumber' , false]
     }
+  }else if(Number(values).toString() != NaN.toString()){
+    if(values?.trim().length > 0){
+     return ['password' , true]
+    }else{
+     return ['password' , false]
+    }
   }
   else{
      if(values?.length <3 || !values){
