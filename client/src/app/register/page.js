@@ -24,6 +24,12 @@ function checkValidity(values){
     }else{
      return ['phoneNumber' , false]
     }
+  }else if(Number(values).toString() != NaN.toString()){
+    if(values?.trim().length > 0){
+     return ['password' , true]
+    }else{
+     return ['password' , false]
+    }
   }
   else{
      if(values?.length <3 || !values){
@@ -56,6 +62,16 @@ const schema = Yup.object().shape({
 
 function Register() {
   const [open, setOpen] = useState(false)
+
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+
   const handleRegister = async(values,resetForm) => {
     try{
       const userField = checkValidity(values.userIdentityField)
@@ -166,9 +182,11 @@ function Register() {
       </Formik>
       <Snackbar
         open={open}
-        autoHideDuration={6000}
-        // onClose={handleClose}
-        message="Note archived"
+        message="Popup"
+        onClose={handleClose}
+        
+        autoHideDuration={5000}
+      
         // action={action}
       />
     </>
