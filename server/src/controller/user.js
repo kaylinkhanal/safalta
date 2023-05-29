@@ -1,10 +1,10 @@
 const User = require('../model/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
 const addNewUser = async(req, res) => {
         try{
-            //search if the user is in the db
-            const userExists = await User.exists({email: req.body.email})
-            if(!userExists){
+            const userExists = await User.find({$or:[{email:  req.body.email}, {userName: req.body.userName}, {phoneNumber:req.body.phoneNumber}]})
+            if(userExists.length == 0 ){
                 const hash = bcrypt.hashSync(req.body.password, 10);
                 req.body.password = hash
                 const data= await User.create(req.body)
@@ -24,18 +24,52 @@ const addNewUser = async(req, res) => {
 
    }
 
-const deleteUser = async(req, res) => {
-    console.log("test")
+const verifyUser = async(req, res) => {
+    //find if the user exists
+   const data = await User.findOne({$or:[{email:  req.body.email}, {userName: req.body.userName }, {phoneNumber:req.body.phoneNumber}]})
+   if(data){
+        const isMatched =await bcrypt.compare(req.body.password, data.password); // false
+        //generate a jwt token for him
+        const {password, ...allOtherItem} = req.body
+        const token = await jwt.sign(allOtherItem, process.env.SECRET_KEY, { expiresIn: '1h'  });
+        if(isMatched && token){
+            res.json({
+                msg: "login success",
+                isLoggedIn: true,
+                token: token
+            })
+        }else{
+            res.json({
+                msg: "login failed",
+                isLoggedIn: false
+            })
+        }
+      
+   }else{
+    res.json({
+        msg: "invalid credentials",
+        isLoggedIn: false
+    })
+   }
+
 }
 
-const getAllPassword = async(req, res) => {
+
+const getAllUsers = async(req, res) => {
     const data = await User.find()
-    res.json({data: data})
+    if(data){
+       res.json({
+        userList: data
+       })
+    }
+ 
+ }
+ 
+ 
 
-}
 
 module.exports = {
     addNewUser,
-    deleteUser,
-    getAllPassword
+    verifyUser,
+    getAllUsers
 }
