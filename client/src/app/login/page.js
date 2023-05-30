@@ -2,11 +2,12 @@
 import Image from 'next/image';
 import logoImage from '../Image/logo.png';
 import { Formik } from "formik";
+import {useSelector, useDispatch} from 'react-redux'
 import * as Yup from "yup";
 import Link from 'next/link';
 import '../styles/login.css';
 import checkValidity from '../utils/checkFieldTypeValidity'
-
+import {setLogin} from '../redux/reducerSlice/userSlice'
 // Creating schema
 const schema = Yup.object().shape({
     userIdentityField: Yup.string()
@@ -18,9 +19,7 @@ const schema = Yup.object().shape({
 
 //validation lib 
 function Login() {
-    setInterval(() => {
-        fetch('http://samir.com/users', {token:'ib312ndabsfandbfsndabfda'})
-    }, 10);
+    const dispatch = useDispatch()
     const handleLogin = async(values,resetForm) => {
         try{
           const userField = checkValidity(values.userIdentityField)
@@ -33,7 +32,9 @@ function Login() {
           }
          const res = await fetch('http://localhost:8000/login', requestOptions)
          const data = await res.json()
-         if(res.status == 200 && data){
+         if(res.status == 200 && data.isLoggedIn){
+             debugger;
+            dispatch(setLogin(data))
           /// data. token => 
          }
         }catch(err){

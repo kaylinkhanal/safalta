@@ -36,6 +36,7 @@ const schema = Yup.object().shape({
 
 
 function Register() {
+  // const { } = useSelector(state=>state.user)
   const [open, setOpen] = useState(false)
   const [submitMessage, setSubmitMessage] = useState('')
   const handleClose = (_, reason) => {
