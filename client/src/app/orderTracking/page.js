@@ -9,7 +9,7 @@ const OrderTracking = () => {
 
   return (
     <>
-    <Nav/>
+
       <section className="py-lg-10 my-5">
         <div className="container">
           <div className="row">

@@ -34,6 +34,7 @@ const verifyUser = async(req, res) => {
         const {password, ...allOtherItem} = req.body
         const token = await jwt.sign(allOtherItem, process.env.SECRET_KEY, { expiresIn: '12h'  });
         if(isMatched && token){
+            console.log(data)
             res.json({
                 msg: "login success",
                 isLoggedIn: true,

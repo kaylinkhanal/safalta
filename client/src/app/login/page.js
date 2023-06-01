@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import logoImage from '../Image/logo.png';
 import { Formik } from "formik";
 import {useSelector, useDispatch} from 'react-redux'
@@ -8,6 +9,7 @@ import Link from 'next/link';
 import '../styles/login.css';
 import checkValidity from '../utils/checkFieldTypeValidity'
 import {setLogin} from '../redux/reducerSlice/userSlice'
+
 // Creating schema
 const schema = Yup.object().shape({
     userIdentityField: Yup.string()
@@ -20,6 +22,7 @@ const schema = Yup.object().shape({
 //validation lib 
 function Login() {
     const dispatch = useDispatch()
+    const router = useRouter();
     const handleLogin = async(values,resetForm) => {
         try{
           const userField = checkValidity(values.userIdentityField)
@@ -33,9 +36,9 @@ function Login() {
          const res = await fetch('http://localhost:8000/login', requestOptions)
          const data = await res.json()
          if(res.status == 200 && data.isLoggedIn){
-             debugger;
             dispatch(setLogin(data))
-          /// data. token => 
+            resetForm()
+            router.push('/');
          }
         }catch(err){
             alert('login failed')
