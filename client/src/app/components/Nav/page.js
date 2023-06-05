@@ -2,18 +2,23 @@ import Image from 'next/image';
 import logoImage from '../../Image/logo.png';
 import ctaImage from '../../Image/tracking.jpg'
 import { useRouter } from 'next/navigation';
+import BasicMenu from '../Menu/page'
+import {useSelector } from 'react-redux'
+import Link from 'next/link';
 
 const Nav = () => {
     const router = useRouter();
+
+    const {role} = useSelector(state=>state.user)
     const handleRouting = (action) => {
     router.push(action);
     };
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" href="/">
             <Image src={logoImage} alt="Logo" width={160} height={85} />
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -33,10 +38,15 @@ const Nav = () => {
                 </a>
               </li>
             </ul>
-            <form className="d-flex">
-              <button type="button" className="btn login_btn" onClick={() => handleRouting('/login')}>LogIn</button>
-              <button type="button" className="btn signin_btn" onClick={() => handleRouting('/register')}>SignUp</button>
-            </form>
+            {!role ? (
+                <form className="d-flex">
+                  <button type="button" className="btn login_btn" onClick={() => handleRouting('/login')}>LogIn</button>
+                  <button type="button" className="btn signin_btn" onClick={() => handleRouting('/register')}>SignUp</button>
+                </form>
+            ):  (
+              <BasicMenu/>
+            )}
+           
           </div>
         </div>
       </nav>
