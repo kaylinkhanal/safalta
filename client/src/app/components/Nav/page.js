@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image';
 import logoImage from '../../Image/logo.png';
 import ctaImage from '../../Image/tracking.jpg'

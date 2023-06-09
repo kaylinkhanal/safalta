@@ -3,11 +3,14 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { combineReducers } from "redux";
 import userSlice from '../reducerSlice/userSlice'
+import itemSlice from '../reducerSlice/itemSlice'
+
 import logger from 'redux-logger'
 
 
 const reducer = combineReducers({
-  user: userSlice
+  user: userSlice,
+  item: itemSlice
 });
 
 const persistConfig = {

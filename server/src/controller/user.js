@@ -2,9 +2,10 @@ const User = require('../model/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const addNewUser = async(req, res) => {
-       console.log("uploaded")
+      const data = await User.find()
 
    }
+   addNewUser()
 
 const verifyUser = async(req, res) => {
     //find if the user exists

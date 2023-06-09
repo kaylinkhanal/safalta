@@ -11,10 +11,20 @@ import Snackbar from '@mui/material/Snackbar';
 function CustomForm(props) {
     const [file, setFile] = useState(null)
     const submitFormData = async(values) => {
-        await axios.post("http://localhost:8000" + props.apiEndpoint , values )
+        const form = new FormData();
+        Object.entries(values).forEach(item=>{
+          form.append(item[0], item[1])
+        })
+        form.append('itemImage', file)
+
+         axios.post("http://localhost:8000" + props.apiEndpoint , form )
+         .then((res) => {
+         alert(res.data.msg)
+        });
     }
   
     const handleFileSave = (e)=>{
+      console.log(e)
       setFile(e.target.files[0])
     }
 
