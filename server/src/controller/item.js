@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const path =require('path')
 const addNewItem = async(req, res) => {
         try{
+            console.log(req.body)
         //   const data = new Item(req.body)
         // data.save()
         

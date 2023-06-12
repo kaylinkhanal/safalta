@@ -15,7 +15,7 @@ const Nav = () => {
     router.push(action);
     };
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light" >
         <div className="container">
           <Link className="navbar-brand" href="/">
             <Image src={logoImage} alt="Logo" width={160} height={85} />

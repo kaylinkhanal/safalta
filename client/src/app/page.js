@@ -16,14 +16,19 @@ const PrimaryPages = ()=>{
     case 'rider': 
       return <RiderDashboard/>
     default:
-      return <OrderTracking/>
+      return  (
+      <div>
+        <Nav/>
+      <OrderTracking/>
+      </div>
+      )
   }
 
 }
 
   return (
     <>
-    <Nav/>
+   
     <PrimaryPages/>
     </>
   )

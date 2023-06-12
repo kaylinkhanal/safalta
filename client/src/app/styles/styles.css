@@ -3,7 +3,10 @@ button.btn.login_btn{
   color: #fff;
   margin-right: 15px;
 }
-
+.MenuRight{
+   float: right;
+    margin-right: 50px;
+}
 button.btn.signin_btn{
   /* background-color: #DB9B1F; */
   background-color: #FA9D1B;

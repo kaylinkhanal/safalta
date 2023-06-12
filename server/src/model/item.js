@@ -3,6 +3,7 @@ const ItemSchema = new mongoose.Schema({
   "Item Name": String,
   "Item Description": String,
   "Item Image": String,
+  "Item Options": Object,
 });
 
 

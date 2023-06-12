@@ -1,11 +1,29 @@
 const User = require('../model/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const addNewUser = async(req, res) => {
-      const data = await User.find()
 
-   }
-   addNewUser()
+const addNewUser = async(req, res) => {
+    try{
+        const userExists = await User.find({$or:[{email:  req.body.email}, {userName: req.body.userName}, {phoneNumber:req.body.phoneNumber}]})
+        if(userExists.length == 0 ){
+            const hash = bcrypt.hashSync(req.body.password, 10);
+            req.body.password = hash
+            const data= await User.create(req.body)
+            if(data) {
+                res.json({
+                    msg: "registered successfully"
+                })
+            }
+        }else{
+            res.sendStatus(409)
+        }
+       
+    }catch(err){
+        console.log(err)
+    }
+
+
+}
 
 const verifyUser = async(req, res) => {
     //find if the user exists
