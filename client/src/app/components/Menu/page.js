@@ -4,6 +4,7 @@ import {useState} from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Avatar } from '@mui/material';
 import {useDispatch} from 'react-redux'
 import {setLogout} from '../../redux/reducerSlice/userSlice'
 export default function BasicMenu() {
@@ -26,7 +27,7 @@ export default function BasicMenu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Dashboard
+     <Avatar style={{background:"red"}}>M</Avatar>
       </Button>
       <Menu
         id="basic-menu"

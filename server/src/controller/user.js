@@ -33,7 +33,7 @@ const verifyUser = async(req, res) => {
         const isMatched =await bcrypt.compare(req.body.password, data.password); // false
         //generate a jwt token for him
         const {password, ...allOtherItem} = req.body
-        const token = await jwt.sign(allOtherItem, process.env.SECRET_KEY, { expiresIn: '12h'  });
+        const token = await jwt.sign(allOtherItem, "b0f83752b699d282f792641548b6ae8c71ec10d84b3ba0cf3c", { expiresIn: '12h'  });
         if(isMatched && token){
             res.json({
                 msg: "login success",

@@ -16,12 +16,13 @@ const UserDashboard = ()=> {
     const [itemList, setItemList] = useState([])
     const [pageCount, setPageCount] = useState(0)
     const {currentSelectedItem} = useSelector(state=>state.item)
-    const parsedOptions = JSON.parse(currentSelectedItem['Item Options'])
-    const refactoredFormItems = parsedOptions.map((item)=> { 
+    const newArr = Object.entries(currentSelectedItem)
+    console.log(newArr)
+    const refactoredFormItems = newArr.map((item)=> { 
       return {"label":item.title, type:"text"}
     })
     const fetchItem  = async(page=1)=> {
-        const res = await fetch('http://localhost:8000/items?page='+page)
+        const res = await fetch('http://localhost:3000/items?page='+page)
         const data = await res.json()
         setItemList(data.itemList)
         setPageCount(data.pageCount)

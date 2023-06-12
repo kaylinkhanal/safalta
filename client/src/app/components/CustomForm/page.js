@@ -20,7 +20,7 @@ function CustomForm(props) {
         })
         form.append('itemImage', file)
 
-         axios.post("http://localhost:8000" + props.apiEndpoint , form )
+         axios.post("http://localhost:3000" + props.apiEndpoint , form )
          .then((res) => {
          alert(res.data.msg)
         });
