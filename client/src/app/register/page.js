@@ -1,30 +1,17 @@
 'use client';
+import {useState} from 'react';
 import Image from 'next/image';
 import logoImage from '../Image/logo.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from 'next/link';
+
+import Snackbar from '@mui/material/Snackbar';
+import checkValidity from '../utils/checkFieldTypeValidity'
 import '../styles/reg.css';
 
 
-function checkValidity(values){
-  if( Number(values)?.toString() == NaN?.toString() && values?.includes('@') && values?.includes('.') ) {
-       return ['email', true]
-  }else if(Number(values).toString() != NaN.toString()){
-    if(values?.length ==10){
-     return ['phoneNumber' , true]
-    }else{
-     return ['phoneNumber' , false]
-    }
-  }
-  else{
-     if(values?.length <3 || !values){
-       return ['username', false]
-     }else{
-         return ['username', true]
-     }
-  }
-}
+
 
 // Creating schema
 const schema = Yup.object().shape({
@@ -40,14 +27,50 @@ const schema = Yup.object().shape({
     .test(`validate userIdentityField`, (item)=>'invalid '+checkValidity(item?.value)[0], (value)=>  value?.length>0 && checkValidity(value)[1]),
   password: Yup.string()
     .required("Password is a required field")
-    .min(8, "Password must be at least 8 characters"),
+    .min(8, "Password must be at least 8 characters")
+    .test('password dont allow multiple spaces', ()=> 'password should not have multiple spaces', (value)=> !value.includes('  '))
+    ,
 });
 
-const handleRegister = async() => {
-  
-}
+
+
 
 function Register() {
+  // const { } = useSelector(state=>state.user)
+  const [open, setOpen] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+
+  const handleRegister = async(values,resetForm) => {
+    try{
+      const userField = checkValidity(values.userIdentityField)
+      values[userField[0]] = values.userIdentityField
+      
+      const requestOptions ={
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      }
+     const res = await fetch('http://localhost:8000/register', requestOptions)
+     const data = await res.json()
+     if(res.status == 200 && data){
+      setOpen(true)
+      setSubmitMessage('Registration success')
+      resetForm()
+     }
+    }catch(err){
+      setOpen(true)
+      setSubmitMessage('Registration failed')
+    }
+  
+  }
   return (
     <>
 
@@ -57,9 +80,9 @@ function Register() {
           firstName: '',
           lastName: '', userIdentityField: "", password: ""
         }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           // Alert the input values of the form that we filled
-          handleRegister(values)
+          handleRegister(values,resetForm)
         }}
       >
         {({
@@ -76,14 +99,23 @@ function Register() {
               <form noValidate onSubmit={handleSubmit}>
                 <Image src={logoImage} alt="Logo" width={160} height={85} />
                 <span>Register</span>
-                <input name="firstName"  placeholder="Enter First Name"
+                <input 
+                name="firstName"
+                onChange={handleChange}
+                value={values.firstName}
+                id="firstName"
+                placeholder="Enter First Name"
                   className="form-control"/>
                 <p className="error">
                   {errors.firstName && touched.firstName && errors.firstName}
                 </p>
                
-                <input name="lastName"   placeholder="Enter Last  Name"
-                  className="form-control"/>
+                <input name="lastName" 
+                  value={values.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter Last  Name"
+                  className="form-control"
+                  />
                 <p className="error">
                   {errors.lastName && touched.lastName && errors.lastName}
                 </p>
@@ -124,6 +156,15 @@ function Register() {
           </div>
         )}
       </Formik>
+      <Snackbar
+        open={open}
+        message={submitMessage}
+        onClose={handleClose}
+        
+        autoHideDuration={5000}
+      
+        // action={action}
+      />
     </>
   );
 }

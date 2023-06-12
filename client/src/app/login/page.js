@@ -1,17 +1,19 @@
 'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import logoImage from '../Image/logo.png';
 import { Formik } from "formik";
+import {useSelector, useDispatch} from 'react-redux'
 import * as Yup from "yup";
 import Link from 'next/link';
 import '../styles/login.css';
-
+import checkValidity from '../utils/checkFieldTypeValidity'
+import {setLogin} from '../redux/reducerSlice/userSlice'
 
 // Creating schema
 const schema = Yup.object().shape({
-    email: Yup.string()
-        .required("Email is a required field")
-        .email("Invalid email format"),
+    userIdentityField: Yup.string()
+    .test(`validate userIdentityField`, (item)=>'invalid '+checkValidity(item?.value)[0], (value)=>  value?.length>0 && checkValidity(value)[1]),
     password: Yup.string()
         .required("Password is a required field")
         .min(8, "Password must be at least 8 characters"),
@@ -19,15 +21,38 @@ const schema = Yup.object().shape({
 
 //validation lib 
 function Login() {
+    const dispatch = useDispatch()
+    const router = useRouter();
+    const handleLogin = async(values,resetForm) => {
+        try{
+          const userField = checkValidity(values.userIdentityField)
+          values[userField[0]] = values.userIdentityField
+          
+          const requestOptions ={
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+          }
+         const res = await fetch('http://localhost:8000/login', requestOptions)
+         const data = await res.json()
+         if(res.status == 200 && data.isLoggedIn){
+            dispatch(setLogin(data))
+            resetForm()
+            router.push('/');
+         }
+        }catch(err){
+            alert('login failed')
+        }
+      
+      }
     return (
         <>
           
             <Formik
                 validationSchema={schema}
-                initialValues={{ email: "", password: "" }}
-                onSubmit={(values) => {
-                    // Alert the input values of the form that we filled
-                    alert(JSON.stringify(values));
+                initialValues={{ userIdentityField: "", password: "" }}
+                onSubmit={(values , { resetForm } ) => {
+                    handleLogin(values,resetForm )
                 }}
             >
                 {({
@@ -46,18 +71,18 @@ function Login() {
                                 <span>Login</span>
                                 
                                 <input
-                                    type="email"
-                                    name="email"
+                           
+                                    name="userIdentityField"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.email}
-                                    placeholder="Enter email id / username"
+                                    value={values.userIdentityField}
+                                    placeholder="Enter email id / username/ phoneNumber"
                                     className="form-control inp_text"
-                                    id="email"
+                                    id="userIdentityField"
                                 />
                                
                                 <p className="error">
-                                    {errors.email && touched.email && errors.email}
+                                    {errors.userIdentityField && touched.userIdentityField && errors.userIdentityField}
                                 </p>
                                
                                 <input
