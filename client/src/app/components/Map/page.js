@@ -3,6 +3,9 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import Nav from '../Nav/page'
 import BasicMenu from '../Menu/page';
 import MiniDrawer from '../Drawer/page'
+import { useSelector } from 'react-redux';
+import ItemList from '../ItemList/page';
+
 const containerStyle = {
   width: '100vw',
   height: '100vh'
@@ -14,6 +17,7 @@ const center = {
 };
 
 const Map = () => {
+  const {isItemFormOpen} =useSelector(state=>state.item)
     return (
       <LoadScript
         googleMapsApiKey="AIzaSyDLfjmFgDEt9_G2LXVyP61MZtVHE2M3H-0"
@@ -23,10 +27,19 @@ const Map = () => {
           center={center}
           zoom={10}
         >
+
+          {
+          isItemFormOpen && (
+            <div className='itemsLists'>
+              <ItemList/>
+              </div>)
+              }
+           <div className='itemsForm'>
+             hi
+              </div>
             <MiniDrawer/>
-            <div className='MenuRight'>
-            <BasicMenu/>
-            </div>
+           
+   
  
           { /* Child components, such as markers, info windows, etc. */ }
           <></>

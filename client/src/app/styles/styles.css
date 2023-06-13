@@ -3,10 +3,30 @@ button.btn.login_btn{
   color: #fff;
   margin-right: 15px;
 }
-.MenuRight{
-   float: right;
-    margin-right: 50px;
+
+.itemsForm{
+  height: 50%;
+  border-radius: 10px;
+  bottom: 0;
+  width: 30%;
+  margin-left: 70px;
+  position: absolute;
+  background-color: #fff;
+  padding: 100px;
 }
+.itemsLists{
+  margin: 70px;
+  border-radius: 10px;
+  position: absolute;
+  background-color: #fff;
+}
+
+
+.MenuRight{
+  float: left;
+  position: absolute;
+  right: 0;
+};
 button.btn.signin_btn{
   /* background-color: #DB9B1F; */
   background-color: #FA9D1B;

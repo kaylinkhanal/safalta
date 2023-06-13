@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
-  currentSelectedItem: {}
+  currentSelectedItem: {},
+  isItemFormOpen: false
 };
 
 const itemSlice = createSlice({
@@ -15,10 +16,16 @@ const itemSlice = createSlice({
        currentSelectedItem: actions.payload
      }
     },
+    setItemFormOpen: (state, actions) => {
+      return {
+        ...state,
+        isItemFormOpen: !state.isItemFormOpen
+      }
+  },
   }
 });
 
 
 
-export const { setItem } = itemSlice.actions;
+export const { setItem , setItemFormOpen} = itemSlice.actions;
 export default itemSlice.reducer;

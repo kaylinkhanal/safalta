@@ -3,6 +3,7 @@
 import {useState} from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
+import { Avatar } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import {useDispatch} from 'react-redux'
 import {setLogout} from '../../redux/reducerSlice/userSlice'
@@ -17,6 +18,18 @@ export default function BasicMenu() {
     setAnchorEl(null);
   };
 
+  // const {currentSelectedItem} = useSelector(state=>state.item)
+  // let parsedOptions = []
+  // if(currentSelectedItem['Item Options']){
+  //   parsedOptions = JSON.parse(currentSelectedItem['Item Options'])
+  // }
+ 
+  // const refactoredFormItems = parsedOptions.map((item)=> { 
+  //   return {"label":item.title, type:"text"}
+  // })
+  // <CustomForm formItems={refactoredFormItems} apiEndpoint="/" disableSaveOption={true}/>
+  // //     <button>Continue</button>
+
   return (
     <div>
       <Button
@@ -26,7 +39,7 @@ export default function BasicMenu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Dashboard
+        <Avatar style={{background:"red"}}>M</Avatar>
       </Button>
       <Menu
         id="basic-menu"

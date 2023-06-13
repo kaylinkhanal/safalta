@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import navItems from "../../../../config/navItems.json"
 import MuiDrawer from '@mui/material/Drawer';
+import {useSelector, useDispatch} from 'react-redux'
+import {setItemFormOpen} from '../../redux/reducerSlice/itemSlice'
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -18,7 +21,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-
+import BasicMenu from '../Menu/page';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -87,7 +90,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
+  const dispatch = useDispatch()
   const theme = useTheme();
+  const {role} = useSelector(state=>state.user)
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -97,6 +102,14 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleListSelect = (text) => {
+    handleDrawerClose()
+    if(text == 'Send Items'){
+      dispatch(setItemFormOpen())
+    }
+
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -115,9 +128,10 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
+       
+          <div className='MenuRight'>
+            <BasicMenu/>
+            </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -128,8 +142,8 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {navItems[role].map((text, index) => (
+            <ListItem onClick={()=>handleListSelect(text)} key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
