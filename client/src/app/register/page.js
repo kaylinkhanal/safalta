@@ -1,88 +1,99 @@
-'use client';
-import {useState} from 'react';
-import Image from 'next/image';
-import logoImage from '../Image/logo.png';
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import logoImage from "../Image/logo.png";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Link from 'next/link';
-
-import Snackbar from '@mui/material/Snackbar';
-import checkValidity from '../utils/checkFieldTypeValidity'
-import '../styles/reg.css';
-
-
-
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Snackbar from "@mui/material/Snackbar";
+import checkValidity from "../utils/checkFieldTypeValidity";
+import "../styles/reg.css";
 
 // Creating schema
 const schema = Yup.object().shape({
   firstName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
   lastName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-    userIdentityField: Yup.string()
-    .test(`validate userIdentityField`, (item)=>'invalid '+checkValidity(item?.value)[0], (value)=>  value?.length>0 && checkValidity(value)[1]),
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  userIdentityField: Yup.string().test(
+    `validate userIdentityField`,
+    (item) => "invalid " + checkValidity(item?.value)[0],
+    (value) => value?.length > 0 && checkValidity(value)[1]
+  ),
   password: Yup.string()
     .required("Password is a required field")
     .min(8, "Password must be at least 8 characters")
-    .test('password dont allow multiple spaces', ()=> 'password should not have multiple spaces', (value)=> !value.includes('  '))
-    ,
+    .test(
+      "password dont allow multiple spaces",
+      () => "password should not have multiple spaces",
+      (value) => !value.includes("  ")
+    ),
 });
-
-
-
 
 function Register() {
   // const { } = useSelector(state=>state.user)
-  const [open, setOpen] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState('')
+  const [open, setOpen] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+  const router = useRouter();
+
   const handleClose = (_, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
 
+  const handleRegister = async (values, resetForm) => {
+    try {
+      const userField = checkValidity(values.userIdentityField);
+      values[userField[0]] = values.userIdentityField;
 
-  const handleRegister = async(values,resetForm) => {
-    try{
-      const userField = checkValidity(values.userIdentityField)
-      values[userField[0]] = values.userIdentityField
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      };
+      const res = await fetch("http://localhost:8000/register", requestOptions);
+      const data = await res.json();
+
+      if (res.status == 200 && data) {
       
-      const requestOptions ={
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
+
+          setOpen(true);
+          setSubmitMessage("Registration success");
+
+          setTimeout(() =>{
+          router.push("../login");
+
+
+        }, 2000)
+        
+        
       }
-     const res = await fetch('http://localhost:8000/register', requestOptions)
-     const data = await res.json()
-     if(res.status == 200 && data){
-      setOpen(true)
-      setSubmitMessage('Registration success')
-      resetForm()
-     }
-    }catch(err){
-      setOpen(true)
-      setSubmitMessage('Registration failed')
+    } catch (err) {
+      setOpen(true);
+      setSubmitMessage("Registration failed");
     }
-  
-  }
+  };
   return (
     <>
-
       <Formik
         validationSchema={schema}
         initialValues={{
-          firstName: '',
-          lastName: '', userIdentityField: "", password: ""
+          firstName: "",
+          lastName: "",
+          userIdentityField: "",
+          password: "",
         }}
         onSubmit={(values, { resetForm }) => {
           // Alert the input values of the form that we filled
-          handleRegister(values,resetForm)
+          handleRegister(values, resetForm);
         }}
       >
         {({
@@ -99,23 +110,25 @@ function Register() {
               <form noValidate onSubmit={handleSubmit}>
                 <Image src={logoImage} alt="Logo" width={160} height={85} />
                 <span>Register</span>
-                <input 
-                name="firstName"
-                onChange={handleChange}
-                value={values.firstName}
-                id="firstName"
-                placeholder="Enter First Name"
-                  className="form-control"/>
+                <input
+                  name="firstName"
+                  onChange={handleChange}
+                  value={values.firstName}
+                  id="firstName"
+                  placeholder="Enter First Name"
+                  className="form-control"
+                />
                 <p className="error">
                   {errors.firstName && touched.firstName && errors.firstName}
                 </p>
-               
-                <input name="lastName" 
+
+                <input
+                  name="lastName"
                   value={values.lastName}
                   onChange={handleChange}
                   placeholder="Enter Last  Name"
                   className="form-control"
-                  />
+                />
                 <p className="error">
                   {errors.lastName && touched.lastName && errors.lastName}
                 </p>
@@ -130,7 +143,9 @@ function Register() {
                 />
 
                 <p className="error">
-                  {errors.userIdentityField && touched.userIdentityField && errors.userIdentityField}
+                  {errors.userIdentityField &&
+                    touched.userIdentityField &&
+                    errors.userIdentityField}
                 </p>
 
                 <input
@@ -149,7 +164,8 @@ function Register() {
 
                 <button type="submit">register</button>
                 <p className="register-register-text">
-                  Already have an account ? <Link href="/login">Login</Link> instead
+                  Already have an account ? <Link href="/login">Login</Link>{" "}
+                  instead
                 </p>
               </form>
             </div>
@@ -160,9 +176,8 @@ function Register() {
         open={open}
         message={submitMessage}
         onClose={handleClose}
-        
         autoHideDuration={5000}
-      
+
         // action={action}
       />
     </>
@@ -170,6 +185,3 @@ function Register() {
 }
 
 export default Register;
-
-
-
