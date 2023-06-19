@@ -7,38 +7,11 @@ import * as Yup from "yup";
 import Link from 'next/link';
 
 import Snackbar from '@mui/material/Snackbar';
-
+import checkValidity from '../utils/checkFieldTypeValidity'
 import '../styles/reg.css';
 
 
-function checkValidity(values){
-  if( Number(values)?.toString() == NaN?.toString() && values?.includes('@')  ) {
-    if( values?.includes('.')){
-      return ['email', true]
-    }else{
-      return ['email', false]
-    }
-  }else if(Number(values).toString() != NaN.toString()){
-    if(values?.length ==10){
-     return ['phoneNumber' , true]
-    }else{
-     return ['phoneNumber' , false]
-    }
-  }else if(Number(values).toString() != NaN.toString()){
-    if(values?.trim().length > 0){
-     return ['password' , true]
-    }else{
-     return ['password' , false]
-    }
-  }
-  else{
-     if(values?.length <3 || !values){
-       return ['username', false]
-     }else{
-         return ['username', true]
-     }
-  }
-}
+
 
 // Creating schema
 const schema = Yup.object().shape({
@@ -54,15 +27,18 @@ const schema = Yup.object().shape({
     .test(`validate userIdentityField`, (item)=>'invalid '+checkValidity(item?.value)[0], (value)=>  value?.length>0 && checkValidity(value)[1]),
   password: Yup.string()
     .required("Password is a required field")
-    .min(8, "Password must be at least 8 characters"),
+    .min(8, "Password must be at least 8 characters")
+    .test('password dont allow multiple spaces', ()=> 'password should not have multiple spaces', (value)=> !value.includes('  '))
+    ,
 });
 
 
 
 
 function Register() {
+  // const { } = useSelector(state=>state.user)
   const [open, setOpen] = useState(false)
-
+  const [submitMessage, setSubmitMessage] = useState('')
   const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -86,12 +62,12 @@ function Register() {
      const data = await res.json()
      if(res.status == 200 && data){
       setOpen(true)
-       alert("user registration success")
-      // resetForm()
+      setSubmitMessage('Registration success')
+      resetForm()
      }
     }catch(err){
       setOpen(true)
-        alert("registration failed")
+      setSubmitMessage('Registration failed')
     }
   
   }
@@ -182,7 +158,7 @@ function Register() {
       </Formik>
       <Snackbar
         open={open}
-        message="Popup"
+        message={submitMessage}
         onClose={handleClose}
         
         autoHideDuration={5000}

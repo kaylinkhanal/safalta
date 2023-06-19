@@ -3,7 +3,40 @@ button.btn.login_btn{
   color: #fff;
   margin-right: 15px;
 }
+.mapGuide {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow:#FA9D1B;
+  padding: 20px;
+  margin: 70px;
+  margin-left: 30%;
+  width: 40%;
 
+  position: absolute;
+}
+.itemsForm{
+  height: 50%;
+  border-radius: 10px;
+  bottom: 0;
+  width: 20%;
+  margin-left: 70px;
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+}
+.itemsLists{
+  margin: 70px;
+  border-radius: 10px;
+  position: absolute;
+  background-color: #fff;
+}
+
+
+.MenuRight{
+  float: left;
+  position: absolute;
+  right: 0;
+};
 button.btn.signin_btn{
   /* background-color: #DB9B1F; */
   background-color: #FA9D1B;
@@ -23,6 +56,13 @@ button.btn.order_track_btn {
 }
 button.btn.login_btn:hover, button.btn.signin_btn:hover {
   color: #d9d6d6;
+}
+
+.proceed {
+  margin-top: 75px;
+  right: 0;
+  float: right;
+  position: absolute;
 }
 button.btn.order_track_btn:hover {
   background-color: #FA9D1B;
