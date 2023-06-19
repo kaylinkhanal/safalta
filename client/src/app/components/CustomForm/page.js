@@ -7,6 +7,7 @@ import "../../styles/login.css"
 import Link from 'next/link';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
+import { useFormik } from 'formik';
 import Autocomplete from '@mui/joy/Autocomplete';
 import Chip from '@mui/joy/Chip';
 import Close from '@mui/icons-material/Close';
@@ -27,32 +28,41 @@ function CustomForm(props) {
     }
   
     const handleFileSave = (e)=>{
-      console.log(e)
       setFile(e.target.files[0])
+      debugger;
     }
-
+    const formFields = props.formItems.map(item => {
+      return [item.label, ""]
+     })
+     const initialValues =Object.fromEntries(formFields)
+     
+    const formik = useFormik({
+      initialValues: initialValues ,
+      onSubmit: values => {
+        if(props.saveToRedux ){
+          console.log("saving to redux")
+        }else{
+          submitFormData(values)
+        }
+      },
+    });
   return (
     <>
     <div>
       <Formik
-        initialValues={{}}
-        onSubmit={(values, { resetForm }) => {
-           submitFormData(values)
-        }}
+      initialValues= {initialValues}
       >
         {({
-          values,
           errors,
           touched,
-          handleChange,
           handleBlur,
-          setFieldValue,
-          handleSubmit,
+     
+
         }) => (
  
             <div >
               {/* Passing handleSubmit parameter tohtml form onSubmit property */}
-              <form noValidate onSubmit={handleSubmit}>
+              <form noValidate onSubmit={formik.handleSubmit}>
                 { props.formItems && props.formItems.map((item)=>{
                   if(item.type == 'selection'){
                     return(
@@ -62,7 +72,7 @@ function CustomForm(props) {
                       placeholder={item.label}
                       options={item.availableSelection}
                       getOptionLabel={(option) => option.title}
-                      onChange={(e, value) => setFieldValue(item.label, JSON.stringify(value))}
+                      onChange={(e, value) => formik.setFieldValue(item.label, JSON.stringify(value))}
                       defaultValue={[item.availableSelection[0]]}
                       renderTags={(tags, getTagProps) =>
                         tags.map((item, index) => (
@@ -83,8 +93,8 @@ function CustomForm(props) {
                       <>
                         <input 
                           name={item.label}
-                          onChange={(e)=>item.type == 'file' ? handleFileSave(e) : handleChange(e)}
-                          value={values[item.label]}
+                          onChange={(e)=>item.type == 'file' ? handleFileSave(e) : formik.handleChange(e)}
+                          value={formik.values[item.label]}
                           id={item}
                           type={item.type}
                           placeholder={item.label}
@@ -99,7 +109,7 @@ function CustomForm(props) {
                 }) }
               
               
-                {!props.disableSaveOption  &&  <button type="submit">Save</button>}
+                 <button type="submit">Save</button>
                
               </form>
           </div>

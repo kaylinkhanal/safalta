@@ -22,6 +22,12 @@ const itemSlice = createSlice({
         isItemFormOpen: !state.isItemFormOpen
       }
   },
+  clearAllStorage: (state, actions) => {
+   return {
+    ...initialState
+   }
+},
+
   }
 });
 

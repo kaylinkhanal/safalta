@@ -18,17 +18,7 @@ export default function BasicMenu() {
     setAnchorEl(null);
   };
 
-  // const {currentSelectedItem} = useSelector(state=>state.item)
-  // let parsedOptions = []
-  // if(currentSelectedItem['Item Options']){
-  //   parsedOptions = JSON.parse(currentSelectedItem['Item Options'])
-  // }
- 
-  // const refactoredFormItems = parsedOptions.map((item)=> { 
-  //   return {"label":item.title, type:"text"}
-  // })
-  // <CustomForm formItems={refactoredFormItems} apiEndpoint="/" disableSaveOption={true}/>
-  // //     <button>Continue</button>
+
 
   return (
     <div>

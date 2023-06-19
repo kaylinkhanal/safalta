@@ -29,7 +29,7 @@ const addNewItem = async(req, res) => {
     const itemCount = await Item.find().count()  //6
     const pageCount = Math.ceil(itemCount/5) //2
     const skipRange = (req.query.page -1) * 5
-    const data = await Item.find().skip(skipRange).limit(5)
+    const data = await Item.find({}).skip(skipRange).limit(5)
     if(data){
        res.json({
         itemList: data,
