@@ -4,16 +4,17 @@ import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
+import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ClearIcon from '@mui/icons-material/Clear';
-import ShareIcon from '@mui/icons-material/Share';
+import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
 
 const actions = [
-  { icon: <LocalShippingIcon />, name: 'Submit Request' },
-  { icon: <ClearIcon />, name: 'Clear Current Request' },
-  { icon: <PrintIcon />, name: 'Print Order Details' },
+  { icon: <LocalShippingIcon />, name: 'Van' },
+  { icon: <TwoWheelerIcon />, name: 'Bike' },
+  { icon: <LocalTaxiIcon />, name: 'Taxi' },
 ];
 
 export default function BasicSpeedDial() {
@@ -22,7 +23,7 @@ export default function BasicSpeedDial() {
       <SpeedDial
         ariaLabel="SpeedDial basic example"
         sx={{ position: 'absolute',  right: 16 }}
-        icon={<SpeedDialIcon />}
+        icon={<LocalShippingIcon />}
         direction="down"
       >
         {actions.map((action) => (

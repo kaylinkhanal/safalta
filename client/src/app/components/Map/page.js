@@ -1,10 +1,12 @@
-import { useState,useRef } from 'react';
+import { useState,useRef,useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker,Autocomplete, useLoadScript } from '@react-google-maps/api';
 import Nav from '../Nav/page'
 
 import BasicMenu from '../Menu/page';
 import MiniDrawer from '../Drawer/page'
 import { useSelector, useDispatch } from 'react-redux';
+import Collapse from '@mui/material/Collapse';
+import Grid from '@mui/material/Grid';
 import ItemList from '../ItemList/page';
 import {Button, Stack,Chip} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -28,12 +30,19 @@ const center = {
 
 const Map = () => {
   const dispatch = useDispatch()
+
   const pickUpInputRef = useRef(null)
   const receiverInputRef = useRef(null)
 
   const [formStep, setFormStep] = useState(1)
+  const [isFormOpen, setIsFormOpen] = useState(false)
   const [currentForm, setCurrentForm] = useState('item')
   const {isItemFormOpen,currentSelectedItem} =useSelector(state=>state.item)
+  useEffect(()=>{
+    setIsFormOpen(true)
+  },[currentSelectedItem._id])
+
+ 
   const {pickupAddress ,
     pickupCoordinates,
     receiverCoordinates,
@@ -138,9 +147,21 @@ const Map = () => {
               onChange={(e)=> dispatch(setReceiverAddress(e.target.value))}
               value={receiverAddress}/>
               </Autocomplete>
-              <Button onClick={()=>setFormStep(1)} variant="outlined" startIcon={<ArrowBackIcon />}>
+              <Grid container spacing={2}>
+  <Grid item xs={8}>
+
+    <Button onClick={()=>setFormStep(1)} variant="outlined" startIcon={<ArrowBackIcon />}>
                 Back
                 </Button>
+  </Grid>
+  <Grid item xs={4}>
+  <Button onClick={()=>setFormStep(2)} variant="outlined" startIcon={<TaskAltIcon />}>
+              Proceed
+            </Button>
+  </Grid>
+</Grid>
+           
+            
             </div>
           )}
           
@@ -157,17 +178,20 @@ const Map = () => {
               }
             {
               isItemFormOpen && Object.keys(currentSelectedItem).length>0 && (
-                <div className='itemsForm'>
+                <Collapse in={isFormOpen}>
+               <div className='itemsForm'>
+                  <button onClick={()=> setIsFormOpen(false)}>Close</button>
                   <Stack direction="row" spacing={1}>
                   <Chip onClick={()=>setCurrentForm('item')} label="Item" color="primary" variant={currentForm=="item" ? "" :"outlined"} />
                   <Chip onClick={()=>setCurrentForm('receiver')} label="Receiver Info" color="primary"  variant={currentForm=="receiver" ? "" :"outlined"}/>
                 </Stack>
 
                 {currentForm == 'item' ? (
-                  <CustomForm saveToRedux={true} formItems={refactoredFormItems} apiEndpoint="/" disableSaveOption={true}/>
-                ):   <CustomForm formItems={receiverFormItems} saveToRedux={true} apiEndpoint="/" disableSaveOption={true}/>}
+                <CustomForm saveToRedux={true} hideSave={true}  formItems={refactoredFormItems} apiEndpoint="/" disableSaveOption={true}/>
+                ):   <CustomForm formItems={receiverFormItems} hideSave={true}  saveToRedux={true} apiEndpoint="/" disableSaveOption={true}/>}
                  
                  </div>
+                 </Collapse>
               )
             }
          

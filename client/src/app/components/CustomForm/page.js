@@ -7,12 +7,16 @@ import "../../styles/login.css"
 import Link from 'next/link';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import Autocomplete from '@mui/joy/Autocomplete';
 import Chip from '@mui/joy/Chip';
 import Close from '@mui/icons-material/Close';
+import { useEffect } from 'react';
+import {setItemFormDetails} from '../../redux/reducerSlice/itemSlice'
 
 function CustomForm(props) {
+  const dispatch = useDispatch()
     const [file, setFile] = useState(null)
     const submitFormData = async(values) => {
         const form = new FormData();
@@ -29,13 +33,13 @@ function CustomForm(props) {
   
     const handleFileSave = (e)=>{
       setFile(e.target.files[0])
-      debugger;
+
     }
     const formFields = props.formItems.map(item => {
       return [item.label, ""]
      })
      const initialValues =Object.fromEntries(formFields)
-     
+
     const formik = useFormik({
       initialValues: initialValues ,
       onSubmit: values => {
@@ -46,6 +50,12 @@ function CustomForm(props) {
         }
       },
     });
+
+    useEffect(()=>{
+      debugger;
+     dispatch(setItemFormDetails(formik.values))
+    }, [JSON.stringify(formik.values)])
+
   return (
     <>
     <div>
@@ -94,7 +104,7 @@ function CustomForm(props) {
                         <input 
                           name={item.label}
                           onChange={(e)=>item.type == 'file' ? handleFileSave(e) : formik.handleChange(e)}
-                          value={formik.values[item.label]}
+                          value={formik.values[item.label] || ''}
                           id={item}
                           type={item.type}
                           placeholder={item.label}
@@ -108,9 +118,7 @@ function CustomForm(props) {
                  
                 }) }
               
-              
-                 <button type="submit">Save</button>
-               
+              {!props.hideSave && <button type="submit">Save</button>}
               </form>
           </div>
         )}

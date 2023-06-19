@@ -16,6 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
+import Tooltip from '@mui/material/Tooltip';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -143,6 +144,7 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {navItems[role].map((text, index) => (
+            <Tooltip title={text}>      
             <ListItem onClick={()=>handleListSelect(text)} key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -163,6 +165,7 @@ export default function MiniDrawer() {
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+            </Tooltip>
           ))}
         </List>
         <Divider />

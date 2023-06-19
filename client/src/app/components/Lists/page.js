@@ -19,6 +19,7 @@ export default function AlignItemsList(props) {
         <ListItemAvatar>
           <Avatar alt={props.item['Item Name']} src={`http://localhost:8000/item-image/${props.item._id}`} />
         </ListItemAvatar>
+
         <ListItemText
           primary={props.item['Item Name']}
           secondary={
@@ -35,6 +36,7 @@ export default function AlignItemsList(props) {
             </React.Fragment>
           }
         />
+
       </ListItem>
       <Divider variant="inset" component="li" />
       </div>

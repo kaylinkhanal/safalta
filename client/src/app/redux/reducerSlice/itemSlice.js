@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
   currentSelectedItem: {},
-  isItemFormOpen: false
+  isItemFormOpen: false,
+  formDetails: {}
 };
 
 const itemSlice = createSlice({
@@ -22,6 +23,12 @@ const itemSlice = createSlice({
         isItemFormOpen: !state.isItemFormOpen
       }
   },
+  setItemFormDetails:  (state, actions) => {
+    return {
+      ...state,
+      formDetails: actions.payload
+    }
+},
   clearAllStorage: (state, actions) => {
    return {
     ...initialState
@@ -33,5 +40,5 @@ const itemSlice = createSlice({
 
 
 
-export const { setItem , setItemFormOpen} = itemSlice.actions;
+export const { setItem , setItemFormOpen, setItemFormDetails} = itemSlice.actions;
 export default itemSlice.reducer;
