@@ -13,9 +13,19 @@ import Chip from '@mui/joy/Chip';
 import Close from '@mui/icons-material/Close';
 
 function CustomForm(props) {
+  const [open, setOpen] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
     const [file, setFile] = useState(null)
     const submitFormData = async(values) => {
-        const form = new FormData();
+    try {   const form = new FormData();
         Object.entries(values).forEach(item=>{
           form.append(item[0], item[1])
         })
@@ -24,7 +34,10 @@ function CustomForm(props) {
          axios.post("http://localhost:8000" + props.apiEndpoint , form )
          .then((res) => {
          alert(res.data.msg)
-        });
+        })} catch(err){
+          setOpen(true)
+          setSubmitMessage('upload failed')
+        }
     }
   
     const handleFileSave = (e)=>{
@@ -115,6 +128,12 @@ function CustomForm(props) {
           </div>
         )}
       </Formik>
+      <Snackbar
+        open={open}
+        message={submitMessage}
+        onClose={handleClose}
+        autoHideDuration={5000}
+      />
       </div>
     </>
   );
