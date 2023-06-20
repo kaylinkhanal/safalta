@@ -1,7 +1,6 @@
 import { useState,useRef,useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker,Autocomplete, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, MarkerF,Autocomplete, useLoadScript } from '@react-google-maps/api';
 import Nav from '../Nav/page'
-
 import BasicMenu from '../Menu/page';
 import MiniDrawer from '../Drawer/page'
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,9 +12,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import {setPickUpAddress, setPickUpCoords,setReceiverAddress ,setReceiverCoords} from '../../redux/reducerSlice/locationSlice'
 import CustomForm from '../CustomForm/page';
-
-
 import BasicSpeedDial from '../FlowingButton/page';
+import axios from 'axios';
+
 
 const containerStyle = {
   width: '100vw',
@@ -34,10 +33,13 @@ const Map = () => {
   const pickUpInputRef = useRef(null)
   const receiverInputRef = useRef(null)
 
+
   const [formStep, setFormStep] = useState(1)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [currentForm, setCurrentForm] = useState('item')
-  const {isItemFormOpen,currentSelectedItem} =useSelector(state=>state.item)
+  const {isItemFormOpen,currentSelectedItem,formDetails} =useSelector(state=>state.item)
+  const {id} =useSelector(state=>state.user)
+
   useEffect(()=>{
     setIsFormOpen(true)
   },[currentSelectedItem._id])
@@ -52,11 +54,31 @@ const Map = () => {
   if(currentSelectedItem['Item Options']){
     parsedOptions = JSON.parse(currentSelectedItem['Item Options'])
   }
-  
+ 
   const refactoredFormItems = parsedOptions.map((item)=> { 
     return {"label":item.title, type:"text"}
   })
   // 
+
+
+  const submitOrderRequest=async()=>{
+    setFormStep(2)
+    const formInputs = {pickupAddress ,
+      pickupCoordinates,
+      receiverCoordinates,
+       receiverAddress,
+      senderId: id,
+      formDetails
+      }
+   
+ 
+    await axios.post("http://localhost:8000/orders", {formInputs})
+    .then((res) => {
+    alert(res.data.msg)
+     })
+    }
+
+
   const assignPickUp = ()=>{
    dispatch(setPickUpAddress(pickUpInputRef.current.value))
   }
@@ -99,14 +121,14 @@ const Map = () => {
           zoom={14}
         >
           {formStep==1 ? (
-              <Marker
+              <MarkerF
               position={pickupCoordinates}
               onDragEnd={(e)=> generateAddress(e.latLng.lat(), e.latLng.lng(), 'pickup')}
               
               draggable={true}
             />
           ):(
-            <Marker
+            <MarkerF
             position={receiverCoordinates}
             onDragEnd={(e)=> generateAddress(e.latLng.lat(), e.latLng.lng(), 'receiver')}
             
@@ -155,8 +177,8 @@ const Map = () => {
                 </Button>
   </Grid>
   <Grid item xs={4}>
-  <Button onClick={()=>setFormStep(2)} variant="outlined" startIcon={<TaskAltIcon />}>
-              Proceed
+  <Button onClick={()=>submitOrderRequest()}>
+              Place order
             </Button>
   </Grid>
 </Grid>

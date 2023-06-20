@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
-const UserSchema = new mongoose.Schema({
-  name: String,
-  password: {type: String, required: true},
-  address: String,
-  userName: String,
-  phoneNumber: String,
-  email: String,
+const orderSchema = new mongoose.Schema({
+  pickupAddress: String,
+  pickupCoordinates: {type: Object},
+  receiverAddress: String,
+  receiverCoordinates: {type: Object},
+  formDetails: {type: Object},
+  senderId: String,
 });
 
 
-module.exports = mongoose.model('User', UserSchema);
+
+
+module.exports = mongoose.model('Order', orderSchema);
 
 
 
