@@ -22,5 +22,6 @@ Client server/nodejs
 ## Features
 - [ ] User
   - [ ] Login
+  - [ ] Register
 - [ ] Rider
   
